@@ -1,0 +1,8 @@
+{
+    "API_URL": "https://URL TO CANVAS",
+    "API_KEY": "API KEY GENERATED FROM SETTINGS",
+    "SITES_TO_UPDATE": [123456, 234567],
+    "LTI_NEW_LAUNCH": "https://NEW LTI LAUNCH URL",
+    "LTI_XML_FILE": "lti_config_prod.xml",
+    "LTI_JSON_FILE": "lti_credentials_prod.json"
+}
