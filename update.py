@@ -1,6 +1,7 @@
 # Updating MWrite LTI links courses and assignments in sites
 import json
 from canvasapi import Canvas
+from canvasapi.exceptions import ResourceDoesNotExist
 from collections import OrderedDict
 import logging
 
@@ -24,7 +25,11 @@ with open(CONFIG.get("LTI_XML_FILE")) as xml_file:
 for site in CONFIG.get("SITES_TO_UPDATE"):
     logger.info(f"Processing course {site}")
     # Get the course
-    course = CANVAS.get_course(site)
+    try:
+        course = CANVAS.get_course(site)
+    except ResourceDoesNotExist as e:
+        logger.warn("Problem retrieving course, skipping", e)
+        continue
     # Find and delete the existing LTI tool
     logger.info ("Searching for M-Write tool")
     tools = course.get_external_tools()
