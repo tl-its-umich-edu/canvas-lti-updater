@@ -28,7 +28,7 @@ for site in CONFIG.get("SITES_TO_UPDATE"):
     try:
         course = CANVAS.get_course(site)
     except ResourceDoesNotExist as e:
-        logger.warn("Problem retrieving course, skipping", e)
+        logger.warning("Problem retrieving course, skipping", e)
         continue
     # Find and delete the existing LTI tool
     logger.info ("Searching for M-Write tool")
