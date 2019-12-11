@@ -32,12 +32,11 @@ for site in CONFIG.get("SITES_TO_UPDATE"):
         logger.warning("Problem retrieving course, skipping: ", exc_info=True)
         continue
     # Find and delete the existing LTI tool
-    logger.info ("Searching for M-Write tool")
+    logger.info ("Searching for M-Write tool by url name")
     tools = course.get_external_tools()
     tool_found = False
-    mwrite_names = ["M-Write", "MWrite"]
     for tool in tools:
-        if any(mwrite_name in tool.name for mwrite_name in mwrite_names):
+        if "mwrite" in tool.url:
             logger.info(f"Found tool named {tool.name}, deleting")
             tool.delete()
             logger.info("Creating new M-Write Tool")
@@ -52,7 +51,7 @@ for site in CONFIG.get("SITES_TO_UPDATE"):
         for assignment in assignments:
             if hasattr(assignment, 'external_tool_tag_attributes') and \
                 'mwrite' in assignment.external_tool_tag_attributes.get('url'):
-                logger.info(f"Found LTI Assignment {assignment.name}, updating external URL")
+                logger.info(f"Found external tool link for Assignment {assignment.id} {assignment.name}, updating external URL")
                 # TODO: This could be pulled out of the XML
                 assignment.edit(assignment={'external_tool_tag_attributes': 
                     {'url': CONFIG.get("LTI_NEW_LAUNCH")}})
