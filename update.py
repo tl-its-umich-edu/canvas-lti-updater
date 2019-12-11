@@ -5,8 +5,9 @@ from canvasapi.exceptions import ResourceDoesNotExist
 from collections import OrderedDict
 import logging
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
 
 #sites_to_update = [109190]
 
@@ -34,8 +35,9 @@ for site in CONFIG.get("SITES_TO_UPDATE"):
     logger.info ("Searching for M-Write tool")
     tools = course.get_external_tools()
     tool_found = False
+    mwrite_names = ["M-Write", "MWrite"]
     for tool in tools:
-        if "M-Write" in tool.name:
+        if any(mwrite_name in tool.name for mwrite_name in mwrite_names):
             logger.info(f"Found tool named {tool.name}, deleting")
             tool.delete()
             logger.info("Creating new M-Write Tool")
